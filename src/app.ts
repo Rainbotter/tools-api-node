@@ -3,6 +3,9 @@ import bodyParser from "body-parser";
 import {Routes} from "./config/routes.config";
 import {Database} from "./config/database.service";
 import {DEFAULT_PORT} from "./config/constants.config";
+import {Logger} from "winston";
+import {container} from "tsyringe";
+import {LoggerService} from "./services/logger.service";
 
 class App {
 
@@ -16,20 +19,29 @@ class App {
     private databaseName: string = process.env.DB_NAME;
     private appPort: string = process.env.PORT || DEFAULT_PORT;
 
+    private logger: Logger = container.resolve(LoggerService).getLogger(this.constructor.name);
+
     constructor() {
-        console.info("# App is starting");
+        this.logger.info("App is starting");
         this.start()
-            .then(value => console.info("# App is ready and listening on port " + this.appPort))
+            .then(value => this.logger.info("# App is ready and listening on port " + this.appPort))
             .catch(reason => {
-                console.error("# App failed to start");
+                this.logger.error("App failed to start");
                 process.exit();
             });
     }
 
-    private start(): Promise<void> {
+    private start(): Promise<void[]> {
         this.app = express();
         this.config();
         this.routePrv.routes(this.app);
+        const toDoOnLunch = [
+            this.initDB()
+        ];
+        return Promise.all(toDoOnLunch);
+    }
+
+    private initDB(): Promise<void> {
         return this.database.connect(this.databaseHost, this.databaseUser, this.databasePassword, this.databaseName);
     }
 

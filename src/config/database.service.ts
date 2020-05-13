@@ -1,7 +1,12 @@
 import mongoose = require("mongoose");
 import {ConnectionOptions, Promise} from "mongoose";
+import {container} from "tsyringe";
+import {LoggerService} from "../services/logger.service";
+import {Logger} from "winston";
 
 export class Database {
+
+    private logger: Logger = container.resolve(LoggerService).getLogger(this.constructor.name);
 
     public connect(url: string, username: string, password: string, databaseName: string): Promise<void> {
 
@@ -11,26 +16,23 @@ export class Database {
             keepAlive: true,
             poolSize: 2,
             user: username,
+            pass: password,
             dbName: databaseName
         }
 
         const connectionUrl = "mongodb://" + url;
 
-        console.info("Database config :");
-        console.info(options);
-        console.log("Database url : " + connectionUrl);
-
-        options.pass = password;
+        this.logger.info("Connecting to database on host " + url);
 
         return mongoose.connect(connectionUrl, options)
             .then(value => {
-                console.info("Database connection success");
-                mongoose.connection.on('disconnected', args => console.error("### DATABASE DISCONNECTED"));
-                mongoose.connection.on('connected', args => console.error("### RECONNECTED TO DATABASE"));
+                this.logger.info("Database connection success");
+                mongoose.connection.on('disconnected', args => this.logger.error("### DATABASE DISCONNECTED"));
+                mongoose.connection.on('connected', args => this.logger.error("### RECONNECTED TO DATABASE"));
             })
             .catch(reason => {
-                console.error("Database connection failure");
-                console.error(reason);
+                this.logger.error("Database connection failure");
+                this.logger.error(reason);
                 throw reason;
             });
     }
