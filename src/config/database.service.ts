@@ -23,12 +23,20 @@ export class Database {
         options.pass = password;
 
         return mongoose.connect(connectionUrl, options)
-            .then(value => console.info("Database connection success"))
+            .then(value => {
+                console.info("Database connection success");
+                mongoose.connection.on('disconnected', args => console.error("### DATABASE DISCONNECTED"));
+                mongoose.connection.on('connected', args => console.error("### RECONNECTED TO DATABASE"));
+            })
             .catch(reason => {
                 console.error("Database connection failure");
                 console.error(reason);
                 throw reason;
             });
+    }
+
+    public pingDatabase(): string {
+        return mongoose.connection.db.databaseName;
     }
 
 }
