@@ -14,5 +14,7 @@
     "node_modules",
     "dist"
   ],
-  "lib": ["es2015"]
+  "lib": [
+    "es2015"
+  ]
 }
