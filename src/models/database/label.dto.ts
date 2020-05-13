@@ -1,6 +1,6 @@
 import {prop} from "@typegoose/typegoose";
 
-export class Label {
+export class LabelDto {
 
     @prop()
     code: string;

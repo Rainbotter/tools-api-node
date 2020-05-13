@@ -10,11 +10,10 @@ import {LoggerService} from "../services/logger.service";
 export class InfoController {
 
     private logger: Logger = container.resolve(LoggerService).getLogger(this.constructor.name);
-    private applicationInfoService?: ApplicationInfoService = container.resolve(ApplicationInfoService);
-    private databaseService?: Database = container.resolve(Database);
+    private applicationInfoService: ApplicationInfoService = container.resolve(ApplicationInfoService);
+    private databaseService: Database = container.resolve(Database);
 
     public getInfo(req: Request, res: Response): void {
-
 
         const response: InfoResponse = {
             name: this.applicationInfoService.getApplicationName(),
@@ -36,7 +35,7 @@ export class InfoController {
     }
 
     public getPing(req: Request, res: Response): void {
-        this.logger.error("ping");
+        this.logger.info("ping");
         res.json({});
     }
 

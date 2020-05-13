@@ -10,6 +10,10 @@
       false,
       "error",
       "info"
+    ],
+    "semicolon": [
+      true,
+      "always"
     ]
   },
   "rulesDirectory": []
