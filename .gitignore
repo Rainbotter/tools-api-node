@@ -1,3 +1,7 @@
+# Intellij
+.DS_Store
+.idea
+
 # Logs
 logs
 *.log
@@ -104,5 +108,3 @@ dist
 .tern-port
 
 .iml
-
-.idea
