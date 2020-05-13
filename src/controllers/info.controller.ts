@@ -1,13 +1,21 @@
 import {Request, Response} from 'express';
-import {injectable} from "tsyringe";
+import {autoInjectable, container} from "tsyringe";
+import {ApplicationInfoService} from "../services/application-info.service";
+import {InfoResponse} from "../models/responses/info.response";
 
-@injectable()
+@autoInjectable()
 export class InfoController {
 
-    public index(req: Request, res: Response) {
-        res.json({
-            message: "hello world"
-        });
+    private applicationInfoService?: ApplicationInfoService = container.resolve(ApplicationInfoService);
+
+    public getInfo(req: Request, res: Response): void {
+
+        const response: InfoResponse = {
+            name: this.applicationInfoService.getApplicationName(),
+            version: this.applicationInfoService.getApplicationVersion()
+        }
+        
+        res.json(response);
     }
 
 }

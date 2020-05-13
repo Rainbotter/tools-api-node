@@ -1,12 +1,11 @@
 import {InfoController} from "../controllers/info.controller";
-import {container} from "tsyringe";
 
 export class Routes {
 
-    private infoController?: InfoController = container.resolve(InfoController);
+    private infoController?: InfoController = new InfoController();
 
     public routes(app): void {
-        app.route("/").get(this.infoController.index);
+        app.route("/info").get((req, res) => this.infoController.getInfo(req, res));
     }
 
 }
