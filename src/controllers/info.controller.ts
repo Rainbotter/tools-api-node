@@ -33,11 +33,12 @@ export class InfoController {
     }
 
     public getPing(req: Request, res: Response): void {
+        console.info("ping");
         res.json({});
     }
 
     public getPingDb(req: Request, res: Response): void {
-        this.databaseService.pingDatabase();
+        console.info("pingDb : " + this.databaseService.pingDatabase());
         res.json({});
     }
 
