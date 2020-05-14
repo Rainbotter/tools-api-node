@@ -13,9 +13,6 @@ export class HolidaysService {
     public findFromTo(from: Date, to: Date): Holiday[] {
         let holidays: Holiday[] = [];
 
-        console.log(from);
-        console.log(to);
-
         let year = from.getFullYear();
 
         do {
