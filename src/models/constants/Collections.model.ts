@@ -1,6 +1,6 @@
 export interface CollectionsModel {
 
-    OVERHAULS_COLLECTION: string
+    OVERHAULS_COLLECTION: string;
     LABELS_COLLECTION: string;
     LABELS_IMPORT_COLLECTION: string;
     LABELS_LOCK_COLLECTION: string;

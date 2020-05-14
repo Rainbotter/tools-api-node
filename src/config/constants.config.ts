@@ -15,5 +15,4 @@ export const COLLECTIONS: CollectionsModel = {
     APPLICATION_STATES_COLLECTION: "application_states",
     APPLICATIONS_STATUS_COLLECTION: "applications_status",
     APPLICATIONS_ACCESS_COLLECTION: "applications_access"
-}
-
+};
