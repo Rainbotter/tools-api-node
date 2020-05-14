@@ -23,7 +23,7 @@ export class InfoController {
                     {name: 'Used Memory', value: this.getUsedMemoryInMB()}
                 ]
             }
-        }
+        };
 
         res.json(response);
     }

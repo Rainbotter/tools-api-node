@@ -1,14 +1,14 @@
 import {InfoController} from "../controllers/info.controller";
 import {container} from "tsyringe";
-import {CountryController} from "../controllers/country.controller";
+import {CountriesController} from "../controllers/countries.controller";
 import {Application} from "express";
-import {ProviderController} from "../controllers/provider.controller";
+import {ProvidersController} from "../controllers/providers.controller";
 
 export class Routes {
 
     private infoController: InfoController = container.resolve(InfoController);
-    private countryController: CountryController = container.resolve(CountryController);
-    private providerController: ProviderController = container.resolve(ProviderController);
+    private countryController: CountriesController = container.resolve(CountriesController);
+    private providerController: ProvidersController = container.resolve(ProvidersController);
 
     public routes(app: Application): void {
 

@@ -3,7 +3,7 @@ import {ProviderDto} from "../models/database/provider.dto";
 import {ProviderResponse} from "../models/responses/provider.response";
 
 @injectable()
-export class ProviderMapper {
+export class ProvidersMapper {
 
     public mapDtoToResponse(dto: ProviderDto): ProviderResponse {
         return {

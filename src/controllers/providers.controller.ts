@@ -4,14 +4,15 @@ import {LoggerService} from "../services/logger.service";
 import {Request, Response} from "express";
 import {FindCountriesParams} from "../models/requests/findCountries.params";
 import {ProvidersService} from "../services/providers.service";
-import {ProviderMapper} from "../mappers/provider.mapper";
+import {ProvidersMapper} from "../mappers/providers.mapper";
 
 @autoInjectable()
-export class ProviderController {
+export class ProvidersController {
 
     private logger: Logger = container.resolve(LoggerService).getLogger(this.constructor.name);
+
     private providersService: ProvidersService = container.resolve(ProvidersService);
-    private providerMapper: ProviderMapper = container.resolve(ProviderMapper);
+    private providerMapper: ProvidersMapper = container.resolve(ProvidersMapper);
 
     public find(req: Request, res: Response): void {
         const params: FindCountriesParams = req.query as FindCountriesParams;

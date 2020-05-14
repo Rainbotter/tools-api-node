@@ -3,7 +3,7 @@ import {CountryDto} from "../models/database/country.dto";
 import {CountryResponse} from "../models/responses/country.response";
 
 @injectable()
-export class CountryMapper {
+export class CountriesMapper {
 
     public mapDtoToResponse(dto: CountryDto): CountryResponse {
         return {
