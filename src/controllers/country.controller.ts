@@ -4,6 +4,7 @@ import {LoggerService} from "../services/logger.service";
 import {CountryService} from "../services/country.service";
 import {Request, Response} from "express";
 import {CountryMapper} from "../mappers/country.mapper";
+import {FindCountriesParams} from "../models/requests/findCountries.params";
 
 @autoInjectable()
 export class CountryController {
@@ -14,6 +15,13 @@ export class CountryController {
 
     public getAll(req: Request, res: Response): void {
         this.countryService.getAll()
+            .then(countries => res.json(countries.map(value => this.countryMapper.mapDtoToResponse(value))));
+    }
+
+    public find(req: Request, res: Response): void {
+        const params: FindCountriesParams = req.query as FindCountriesParams;
+
+        this.countryService.find(params.limit, params.first, params.code, params.codePhone, params.name)
             .then(countries => res.json(countries.map(value => this.countryMapper.mapDtoToResponse(value))));
     }
 

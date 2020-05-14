@@ -1,0 +1,12 @@
+GET http://{{host}}/pingDb
+Accept: application/json
+
+###
+GET http://{{host}}/ping
+Accept: application/json
+
+###
+GET http://{{host}}/info
+Accept: application/json
+
+###

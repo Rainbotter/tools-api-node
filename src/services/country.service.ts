@@ -11,11 +11,28 @@ export class CountryService {
 
     private logger: Logger = container.resolve(LoggerService).getLogger(this.constructor.name);
 
-    private collection: string = COLLECTIONS.COUNTRIES_COLLECTION;
     private countryModel = getModelForClass(CountryDto);
 
     public getAll(): Promise<CountryDto[]> {
         return this.countryModel.find().exec();
+    }
+
+    public find(limit: string, first: string, code: string, codePhone: string, name: string): Promise<CountryDto[]> {
+        const query = this.countryModel.find();
+
+        if (code) {
+            query.where("code", code);
+        }
+
+        if (codePhone) {
+            query.where("codePhone", codePhone);
+        }
+
+        if (name) {
+            query.where("translations.name", name);
+        }
+
+        return query.exec();
     }
 
     public add(code: string, translations: TranslationModel[], codePhone: string, zipCodeRegex: string): Promise<void> {

@@ -1,0 +1,4 @@
+GET http://{{host}}/dictionaries/countries?code=LU
+Accept: application/json
+
+###
