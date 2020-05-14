@@ -1,0 +1,24 @@
+GET http://{{host}}/dictionaries/holidays?to=2021-12-28
+Accept: application/json
+
+###
+GET http://{{host}}/dictionaries/holidays?from=1990-12-20&to=1994-12-30
+Accept: application/json
+
+###
+GET http://{{host}}/dictionaries/holidays?from=1992-12-20
+Accept: application/json
+
+###
+GET http://{{host}}/dictionaries/holidays?minDays=12
+Accept: application/json
+
+###
+GET http://{{host}}/dictionaries/holidays?maxDays=12
+Accept: application/json
+
+###
+GET http://{{host}}/dictionaries/holidays?minDays=3&maxDays=12
+Accept: application/json
+
+###
