@@ -8,7 +8,7 @@ import {container} from "tsyringe";
 import {LoggerService} from "./services/logger.service";
 import {Middlewares} from "./config/middlewares.config";
 
-export class App {
+export class Application {
 
     public app: express.Application;
     public routePrv: Routes = new Routes();
@@ -28,8 +28,11 @@ export class App {
         this.start()
             .then(() => this.logger.info("App is ready and listening on port " + this.appPort))
             .catch(() => {
-                this.logger.error("App failed to start");
-                process.exit();
+                this.logger.error("App failed to start. Will try to properly shutdown");
+                this.stop()
+                    .then(() => this.logger.error("Shut down success"))
+                    .catch(() => this.logger.error("Failed to stop properly"))
+                    .finally(() => process.exit());
             });
     }
 
@@ -37,11 +40,19 @@ export class App {
         this.app = express();
         this.configureMiddlewares();
 
-        const toDoAsynchronouslyOnLunch = [
-            this.initDB()
+        const toDoAsynchronouslyOnLaunch = [
+            this.database.connect(this.databaseHost, this.databaseUser, this.databasePassword, this.databaseName)
         ];
 
-        return Promise.all(toDoAsynchronouslyOnLunch);
+        return Promise.all(toDoAsynchronouslyOnLaunch);
+    }
+
+    private stop(): Promise<void[]> {
+        const toDoAsynchronouslyOnStop = [
+            this.database.disconnect()
+        ];
+
+        return Promise.all(toDoAsynchronouslyOnStop);
     }
 
     private configureMiddlewares(): void {
@@ -53,10 +64,6 @@ export class App {
         this.app.use(this.middlewares.handleUnknowRoutes());
     }
 
-    private initDB(): Promise<void> {
-        return this.database.connect(this.databaseHost, this.databaseUser, this.databasePassword, this.databaseName);
-    }
-
 }
 
-export default new App().app;
+export default new Application().app;

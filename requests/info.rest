@@ -1,4 +1,4 @@
-GET http://{{host}}/pingDb
+GET http://{{host}}/ping/db
 Accept: application/json
 
 ###

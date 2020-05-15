@@ -21,7 +21,7 @@ export class InfoController extends Controller {
             version: this.applicationInfoService.getApplicationVersion(),
             monitoring: {
                 memory: [
-                    {name: 'Used Memory', value: this.getUsedMemoryInMB()}
+                    {name: 'Used Memory', value: this.applicationInfoService.getUsedMemoryInMB()}
                 ]
             }
         };
@@ -37,12 +37,6 @@ export class InfoController extends Controller {
     public getPingDb(req: Request, res: Response): void {
         this.logger.info("pingDb : " + this.databaseService.pingDatabase());
         this.ok(res, {});
-    }
-
-    private getUsedMemoryInMB(): string {
-        const arr = [1, 2, 3, 4, 5, 6, 9, 7, 8, 9, 10];
-        arr.reverse();
-        return `${Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100} MB`;
     }
 
 }

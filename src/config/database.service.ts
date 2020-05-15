@@ -37,6 +37,19 @@ export class Database {
             });
     }
 
+    public disconnect(): Promise<void> {
+        if (mongoose.connection.readyState === 1) {
+            this.logger.info("Close connection to database");
+            return mongoose.disconnect()
+                .then(() => {
+                    this.logger.info("Database connection closed properly");
+                })
+                .catch(() => {
+                    this.logger.info("An error occured while closing database connection");
+                });
+        }
+    }
+
     public pingDatabase(): string {
         return mongoose.connection.db.databaseName;
     }

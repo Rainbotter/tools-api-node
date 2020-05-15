@@ -20,4 +20,8 @@ export class LabelsController extends Controller {
             .then(result => this.ok(res, result));
     }
 
+    public getLabels(req: Request, res: Response): void {
+
+    }
+
 }
