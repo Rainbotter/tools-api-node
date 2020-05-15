@@ -39,7 +39,6 @@ export class Middlewares {
 
             res.status(err.status || 500);
             res.json(internalErrorResponse);
-            next();
         };
     }
 
