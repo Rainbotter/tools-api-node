@@ -5,7 +5,7 @@ import {container} from "tsyringe";
 import {LoggerService} from "../services/logger.service";
 import {App} from "../app";
 
-export class ErrorHandlingConfig {
+export class Middlewares {
 
     private logger: Logger = container.resolve(LoggerService).getLogger(App.name);
 
