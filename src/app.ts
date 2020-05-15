@@ -6,12 +6,14 @@ import {DEFAULT_PORT} from "./config/constants.config";
 import {Logger} from "winston";
 import {container} from "tsyringe";
 import {LoggerService} from "./services/logger.service";
+import {ErrorHandlingConfig} from "./config/error-handling.config";
 
-class App {
+export class App {
 
     public app: express.Application;
     public routePrv: Routes = new Routes();
     public database: Database = new Database();
+    public errorHandlingConfig: ErrorHandlingConfig = new ErrorHandlingConfig();
 
     private databaseHost: string = process.env.DB_HOST;
     private databaseUser: string = process.env.DB_USER;
@@ -35,10 +37,11 @@ class App {
         this.app = express();
         this.config();
         this.routePrv.routes(this.app);
-        const toDoOnLunch = [
+        this.errorHandlingConfig.errorHandling(this.app);
+        const toDoAsynchronouslyOnLunch = [
             this.initDB()
         ];
-        return Promise.all(toDoOnLunch);
+        return Promise.all(toDoAsynchronouslyOnLunch);
     }
 
     private initDB(): Promise<void> {
@@ -46,6 +49,10 @@ class App {
     }
 
     private config(): void {
+        this.app.use((req, res, next) => {
+            this.logger.info(`${req.method} ${req.originalUrl}`);
+            next();
+        });
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({extended: false}));
     }

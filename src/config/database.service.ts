@@ -18,7 +18,7 @@ export class Database {
             user: username,
             pass: password,
             dbName: databaseName
-        }
+        };
 
         const connectionUrl = "mongodb://" + url;
 

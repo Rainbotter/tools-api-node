@@ -1,0 +1,8 @@
+GET http://{{host}}/dictionaries/labels/languages
+Accept: application/json
+
+###
+GET http://{{host}}/dictionaries/labels/languages?applicationName=telecom-configurator-api
+Accept: application/json
+
+###

@@ -14,7 +14,7 @@ export class LoggerService {
                     winston.format.colorize(),
                     winston.format.label({label: className}),
                     winston.format.printf(({level, message, label, timestamp}) => {
-                        return `${timestamp} [${label}] ${level}: ${message}`;
+                        return `${timestamp} [${label}] [${level}]: ${message}`;
                     })),
                 transports: [
                     new winston.transports.Console({level: 'info'}),
