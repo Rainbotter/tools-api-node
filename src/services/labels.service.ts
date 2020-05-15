@@ -17,8 +17,6 @@ export class LabelsService {
             query: application ? {"applications": application} : null
         };
 
-        throw new Error("qsdf");
-
         return this.labelDto.collection
             .mapReduce(mapFunction, reduceFunction, options)
             .then(value => value.map(result => result._id));
