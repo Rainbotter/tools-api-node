@@ -25,6 +25,10 @@ export class Application {
 
     constructor() {
         this.logger.info("App is starting");
+
+        this.app = express();
+        this.configureMiddlewares();
+
         this.start()
             .then(() => this.logger.info("App is ready and listening on port " + this.appPort))
             .catch(() => {
@@ -37,9 +41,6 @@ export class Application {
     }
 
     private start(): Promise<void[]> {
-        this.app = express();
-        this.configureMiddlewares();
-
         const toDoAsynchronouslyOnLaunch = [
             this.database.connect(this.databaseHost, this.databaseUser, this.databasePassword, this.databaseName)
         ];
