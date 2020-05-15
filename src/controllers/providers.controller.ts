@@ -5,9 +5,10 @@ import {Request, Response} from "express";
 import {ProvidersService} from "../services/providers.service";
 import {ProvidersMapper} from "../mappers/providers.mapper";
 import {FindProvidersParams} from "../models/requests/findProviders.params";
+import {Controller} from "./controller";
 
 @autoInjectable()
-export class ProvidersController {
+export class ProvidersController extends Controller {
 
     private logger: Logger = container.resolve(LoggerService).getLogger(this.constructor.name);
 
@@ -18,7 +19,7 @@ export class ProvidersController {
         const params: FindProvidersParams = req.query as FindProvidersParams;
 
         this.providersService.find(params.code, params.name)
-            .then(countries => res.json(countries.map(value => this.providerMapper.mapDtoToResponse(value))));
+            .then(countries => this.ok(res, countries.map(value => this.providerMapper.mapDtoToResponse(value))));
     }
 
 }

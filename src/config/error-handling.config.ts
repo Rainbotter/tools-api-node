@@ -1,4 +1,4 @@
-import {Application, ErrorRequestHandler} from "express";
+import {ErrorRequestHandler, RequestHandler} from "express";
 import {ErrorResponse} from "../models/responses/error.response";
 import {Logger} from "winston";
 import {container} from "tsyringe";
@@ -9,27 +9,26 @@ export class ErrorHandlingConfig {
 
     private logger: Logger = container.resolve(LoggerService).getLogger(App.name);
 
-    public errorHandling(application: Application): void {
-        this.handleUncaughtExceptions(application);
-        this.handleUnknowRoutes(application);
-    }
-
-    private handleUnknowRoutes(application: Application): void {
-
-        application.route("*").get((req, res) => {
+    /**
+     * This should be the last "app.use" in order to work properly
+     */
+    public handleUnknowRoutes(): RequestHandler {
+        return (req, res) => {
 
             const notFoundResponse: ErrorResponse = {
-                type: "Not_FOUND",
+                type: "NOT_FOUND",
                 message: "The route doesn't exist"
             };
 
+            this.logger.error(`${req.method} ${req.originalUrl} doesn't match any route`);
+
             res.status(404);
             res.json(notFoundResponse);
-        });
+        };
     }
 
-    private handleUncaughtExceptions(application: Application): void {
-        const customInternalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
+    public handleUncaughtExceptions(): ErrorRequestHandler {
+        return (err, req, res, next) => {
 
             const internalErrorResponse: ErrorResponse = {
                 type: "INTERNAL_ERROR",
@@ -40,9 +39,15 @@ export class ErrorHandlingConfig {
 
             res.status(err.status || 500);
             res.json(internalErrorResponse);
+            next();
         };
+    }
 
-        application.use(customInternalErrorHandler);
+    public logIncomingRequests(): RequestHandler {
+        return (req, res, next) => {
+            this.logger.info(`Incoming ${req.method} ${req.originalUrl}`);
+            next();
+        };
     }
 
 }

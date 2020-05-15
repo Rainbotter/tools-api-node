@@ -5,7 +5,6 @@ import {Application} from "express";
 import {ProvidersController} from "../controllers/providers.controller";
 import {HolidaysController} from "../controllers/holidays.controller";
 import {LabelsController} from "../controllers/labels.controller";
-import {ErrorResponse} from "../models/responses/error.response";
 import {Logger} from "winston";
 import {LoggerService} from "../services/logger.service";
 
@@ -24,7 +23,7 @@ export class Routes {
         app.route("/info").get((req, res) => this.infoController.getInfo(req, res));
 
         app.route("/ping").get((req, res) => this.infoController.getPing(req, res));
-        app.route("/pingDb").get((req, res) => this.infoController.getPingDb(req, res));
+        app.route("/pingDb").get((req, res, next) => this.infoController.getPingDb(req, res));
 
         app.route("/dictionaries/countries").get((req, res) => this.countryController.find(req, res));
         app.route("/dictionaries/providers").get((req, res) => this.providerController.find(req, res));

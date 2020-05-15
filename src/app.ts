@@ -26,36 +26,38 @@ export class App {
     constructor() {
         this.logger.info("App is starting");
         this.start()
-            .then(value => this.logger.info("# App is ready and listening on port " + this.appPort))
+            .then(() => this.logger.info("App is ready and listening on port " + this.appPort))
             .catch(reason => {
                 this.logger.error("App failed to start");
+                console.error(reason);
                 process.exit();
             });
     }
 
     private start(): Promise<void[]> {
         this.app = express();
-        this.config();
-        this.routePrv.routes(this.app);
-        this.errorHandlingConfig.errorHandling(this.app);
+        this.configureMiddlewares();
+
         const toDoAsynchronouslyOnLunch = [
             this.initDB()
         ];
+
         return Promise.all(toDoAsynchronouslyOnLunch);
+    }
+
+    private configureMiddlewares(): void {
+        this.app.use(bodyParser.json());
+        this.app.use(bodyParser.urlencoded({extended: false}));
+        this.app.use(this.errorHandlingConfig.logIncomingRequests());
+        this.app.use(this.errorHandlingConfig.handleUncaughtExceptions());
+        this.routePrv.routes(this.app);
+        this.app.use(this.errorHandlingConfig.handleUnknowRoutes());
     }
 
     private initDB(): Promise<void> {
         return this.database.connect(this.databaseHost, this.databaseUser, this.databasePassword, this.databaseName);
     }
 
-    private config(): void {
-        this.app.use((req, res, next) => {
-            this.logger.info(`${req.method} ${req.originalUrl}`);
-            next();
-        });
-        this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({extended: false}));
-    }
 }
 
 export default new App().app;
