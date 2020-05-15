@@ -30,12 +30,11 @@ export class InfoController extends Controller {
     }
 
     public getPing(req: Request, res: Response): void {
-        this.logger.info("ping");
         this.ok(res, {});
     }
 
     public getPingDb(req: Request, res: Response): void {
-        this.logger.info("pingDb : " + this.databaseService.pingDatabase());
+        this.databaseService.pingDatabase();
         this.ok(res, {});
     }
 
