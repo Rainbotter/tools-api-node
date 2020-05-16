@@ -7,6 +7,7 @@ import {HolidaysController} from "../controllers/holidays.controller";
 import {LabelsController} from "../controllers/labels.controller";
 import {Logger} from "winston";
 import {LoggerService} from "../services/logger.service";
+import {ApplicationsController} from "../controllers/applications.controller";
 
 export class Routes {
 
@@ -17,6 +18,7 @@ export class Routes {
     private providerController: ProvidersController = container.resolve(ProvidersController);
     private holidaysController: HolidaysController = container.resolve(HolidaysController);
     private labelsController: LabelsController = container.resolve(LabelsController);
+    private applicationsController: ApplicationsController = container.resolve(ApplicationsController);
 
     public routes(app: Application): void {
 
@@ -33,6 +35,9 @@ export class Routes {
 
         // Labels
         app.route("/labels").get((req, res) => this.labelsController.getLabels(req, res));
+
+        // Applications
+        app.route("/labels-applications").get((req, res) => this.applicationsController.getAllowedApplications(req, res));
 
     }
 

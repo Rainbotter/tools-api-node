@@ -1,0 +1,5 @@
+GET http://{{host}}/labels-applications
+Accept: application/json
+IV-GROUPS: GRP_APP_RES-ADMIN_USERS_TEL, GRP_APP_RES-ADMIN_USERS_FIN, GRP_APP_RES-ADMIN_USERS_COU
+
+###

@@ -9,10 +9,10 @@ export class ProvidersService {
 
     private logger: Logger = container.resolve(LoggerService).getLogger(this.constructor.name);
 
-    private providerDto = getModelForClass(ProviderDto);
+    private providerModel = getModelForClass(ProviderDto);
 
     public find(code: string, name: string): Promise<ProviderDto[]> {
-        const query = this.providerDto.find();
+        const query = this.providerModel.find();
 
         if (code) {
             query.where("code", code);
@@ -30,7 +30,7 @@ export class ProvidersService {
             name, code
         };
 
-        return this.providerDto.create(objectToInsert);
+        return this.providerModel.create(objectToInsert);
     }
 
 }
